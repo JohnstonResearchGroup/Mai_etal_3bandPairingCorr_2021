@@ -14,3 +14,4 @@ Abstract: We study the three-band Hubbard model for the copper oxide plane of th
 Contents:
 
 - The folder "Latex Source" contains the Latex files and figures used to produce the final version of the paper. 
+- Data and analysis scripts for each figure.
