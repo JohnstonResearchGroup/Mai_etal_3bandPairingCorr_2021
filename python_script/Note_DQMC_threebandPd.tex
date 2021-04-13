@@ -1,0 +1,78 @@
+%\documentclass[prl]{revtex4}
+\documentclass[arXiv, preprint,url,nofootinbib]{revtex4}
+%\def\dsp{\def\baselinestretch{2.0}\large\normalsize}
+%\dsp
+\usepackage{amsmath,bm}
+\usepackage{graphicx,pdflscape}% Include figure files
+\usepackage{color}
+\usepackage[toc,page]{appendix}
+
+\usepackage{hyperref}
+\usepackage{color,subfigure}
+\usepackage{placeins}
+\newcommand{\beq}{\begin{equation}}
+\newcommand{\eeq}{\end{equation}}
+\newcommand{\disp}[1]{Eq.~(\ref{#1})}
+
+
+
+\begin{document}
+
+
+\title{Note for calculating pair-field susceptibility of the three-band Hubbard model in determinant quantum Monte-Carlo method}
+%in Raman scattering
+
+%\title{Momentum  dependence of self-energy in the one dimensional t-t'-J model}
+\author{Peizhi Mai$^{1}$\\}
+\affiliation{$^1$Computational Sciences and Engineering Division, Oak Ridge National Laboratory, Oak Ridge, TN, 37831-6494, USA}
+
+\maketitle
+\date{today}
+
+The pair-field susceptibility of the three-band Hubbard model is defined as 
+\beq
+P_{d,\alpha_1 \alpha_2 \alpha_3 \alpha_4}(T) = \int_0^{\beta} d\tau \langle \Delta_{d,\alpha_1 \alpha_2}(\tau)  \Delta^{\dagger}_{d,\alpha_3 \alpha_4}(0)    \rangle \label{Pd1}
+\eeq
+
+and 
+\beq
+\Delta^{\dagger}_{d,\alpha_3 \alpha_4} = \frac{1}{\sqrt{N}} \sum_{\bf k} g_d({\bf k}) c^{\dagger}_{\alpha_3,{\bf k}\uparrow} c^{\dagger}_{\alpha_4,-{\bf k}\downarrow}
+\eeq
+where $\alpha_1, \alpha_2, \alpha_3, \alpha_4$ = $d, L, L'$.
+We can rewrite \disp{Pd1} into
+\beq
+P_{d,\alpha_1 \alpha_2 \alpha_3 \alpha_4}(T) =\frac{1}{N} \sum_{{\bf k, k'}}g_d({\bf k})g_d({\bf k'})\int_0^{\beta} d\tau \langle \Delta_{\alpha_1 \alpha_2}({\bf k},\tau)  \Delta^{\dagger}_{\alpha_3 \alpha_4}({\bf k'},0)    \rangle
+\eeq
+Starting from here, we drop the form factor out of the pair operator. Define an intermediate quantity:
+\beq
+G_{2,\alpha_1 \alpha_2 \alpha_3 \alpha_4}({\bf k, k'}) = \int_0^{\beta} \langle \Delta_{\alpha_1 \alpha_2}({\bf k},\tau)  \Delta^{\dagger}_{\alpha_3 \alpha_4}({\bf k'},0)    \rangle
+\eeq
+This quantity can be obtained from basis transformation on $G_{2, \gamma_1 \gamma_2 \gamma_3\gamma_4}({\bf k, k'})$ where $\gamma_1, \gamma_2, \gamma_3, \gamma_4$ = $d, p_x, p_y$.
+
+
+\beq
+\begin{split}
+\Delta^{\dagger}_{\gamma_3\gamma_4}({\bf r},0) &=\frac{1}{N}\sum_{\bf k} \Delta^{\dagger}_{\gamma_3\gamma_4}({\bf k},0) \exp(-i {\bf k}\cdot ({\bf r+\delta_{\gamma_3}-\delta_{\gamma_4}})) 
+\\& = \frac{1}{N} \sum_{\bf k, j_3,j_4}  c^{\dagger}_{\gamma_3,{\bf j_3 }\uparrow}  \exp(-i {\bf k} \cdot{\bf j_3})  c^{\dagger}_{\gamma_4,{\bf j_4 }\downarrow} \exp(i {\bf k} \cdot{\bf j_4}) \exp(-i {\bf k}\cdot ({\bf r+\delta_{\gamma_3}-\delta_{\gamma_4}})) 
+\\& = \frac{1}{N} \sum_{ j_3,j_4}  c^{\dagger}_{\gamma_3,{\bf j_3 }\uparrow}   c^{\dagger}_{\gamma_4,{\bf j_4 }\downarrow} \delta({\bf j_3-j_4+r+\delta_{\gamma_3}-\delta_{\gamma_4}})
+\\& = \sum_{ j_3}  c^{\dagger}_{\gamma_3,{\bf j_3 }\uparrow}   c^{\dagger}_{\gamma_4,{\bf j_3+r+\delta_{\gamma_3}-\delta_{\gamma_4}}\downarrow} 
+\\& = \sum_{ j}  c^{\dagger}_{\gamma_3,{\bf j }\uparrow}   c^{\dagger}_{\gamma_4,{\bf j+r+\delta_{\gamma_3}-\delta_{\gamma_4}}\downarrow} 
+\end{split}
+\eeq
+where $\delta_\gamma$ is the distance from orbital $\gamma$ to orbital $d$. Therefore 
+\beq
+\begin{split}
+G_{2, \gamma_1 \gamma_2 \gamma_3\gamma_4}({\bf k, k'}) &= \int_0^{\beta} \langle \Delta_{\gamma_1 \gamma_2}({\bf k},\tau)  \Delta^{\dagger}_{\gamma_3 \gamma_4}({\bf k'},0)    \rangle
+\\& = \frac{1}{N^2}\sum_{\bf r,r'}  \int_0^{\beta} \langle \Delta_{\gamma_1 \gamma_2}({\bf r},\tau)  \Delta^{\dagger}_{\gamma_3 \gamma_4}({\bf r'},0)    \rangle \exp(i {\bf k}\cdot ({\bf r+\delta_{\gamma_1}-\delta_{\gamma_2}}))  \exp(-i {\bf k'}\cdot ({\bf r'+\delta_{\gamma_3}-\delta_{\gamma_4}})) 
+\\&  = \frac{1}{N^2}\sum_{\bf r,r'}  G_{2, \gamma_1 \gamma_2 \gamma_3\gamma_4}({\bf r, r'})  \exp(i {\bf k}\cdot ({\bf r+\delta_{\gamma_1}-\delta_{\gamma_2}}))  \exp(-i {\bf k'}\cdot ({\bf r'+\delta_{\gamma_3}-\delta_{\gamma_4}})).
+\end{split}
+\eeq
+In the last line I define 
+\beq
+G_{2, \gamma_1 \gamma_2 \gamma_3\gamma_4}({\bf r, r'}) = \int_0^{\beta} \langle \Delta_{\gamma_1 \gamma_2}({\bf r},\tau)  \Delta^{\dagger}_{\gamma_3 \gamma_4}({\bf r'},0)    \rangle
+\eeq
+
+This quantity can be measured in determinant quantum Monte-Carlo method. After obtaining $G_{2, \gamma_1 \gamma_2 \gamma_3\gamma_4}({\bf r, r'})$, we Fourier transform it to get $G_{2, \gamma_1 \gamma_2 \gamma_3\gamma_4}({\bf k, k'})$, and then transform it into the $d-L-L'$ basis for $G_{2, \alpha_1 \alpha_2 \alpha_3 \alpha_4}({\bf k, k'})$. With that we can project it to the form factor $g_d({\bf k})=\cos(k_x) - \cos(k_y)$ to calculate $P_d$.
+
+\end{document}
+
